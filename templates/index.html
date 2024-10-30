@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+        /* * {
+            padding:  0px;
+            margin:  0px;
+        } */
+
+        body {
+            background-color: rgb(255, 255, 255);
+
+
+            font-family: "Source Code Pro", serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        /* .main {
+
+        } */
+
+        #message {
+            border: 1px solid black;
+            /* border: none; */
+            background-color: white;
+            color: rgb(0, 0, 0);
+
+            border-radius: 1vh 0px 0px 1vh;
+            transition: .3s;
+            font-size: 20px;
+            padding-left: 5px;
+        }
+
+        #message:hover {
+            background-color: rgb(243, 243, 243);
+            transition: .3s;
+        }
+
+        #message:focus {
+            outline: none;
+        }
+
+        #message_input_plus_button {
+            height: 30px;
+
+            display: flex;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 5vh;
+        }
+
+        #message_button {
+            border: none;
+            color: white;
+            background-color: rgb(0, 140, 255);
+            transition: .3s;
+            border-radius: 0px 1vh 1vh 0px;
+            user-select: none;
+        }
+
+        #message_button:hover {
+            color: white;
+            background-color: rgb(0, 117, 212);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let author = '';
+
+        if (localStorage.getItem('author') == undefined || localStorage.getItem('author') == null || localStorage.getItem('author') == '') {
+            localStorage.setItem('author', prompt('Введите своё имя!', 'Аноним'));
+
+            author = localStorage.getItem('author');
+        }
+        else {
+            author = localStorage.getItem('author')
+        }
+
+        function sendMessage() {
+            // const author = document.getElementById('author').value;
+            const message = document.getElementById('message').value;
+            const data = { author: author, message: message };
+
+            socket.emit('send_message', data);
+            document.getElementById('message').value = '';
+        }
+
+        socket.on('receive_message', function (data) {
+            const chat = document.getElementById('chat');
+            chat.innerHTML += '<div style="color: black;"><strong style="color: black;">' + data.author + ': ' + data.message + '</strong></div>';
+        });
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <h1 id="title" style="color: black; user-select: none;"><strong>Чат зашифрован</strong></h1>
+
+        <div id="chat">
+            {% for msg in messages %}
+            <div style="color: black;"><strong style="color: black;">{{ msg.author }}: {{ msg.message }}</strong></div>
+            {% endfor %}
+        </div>
+        <!-- <input id="author" type="text" placeholder="Ваше имя"> -->
+        <div id="message_input_plus_button">
+            <input id="message" type="text" placeholder="Введите сообщение">
+            <button id="message_button" onclick="sendMessage()">Отправить</button>
+            <button id="message_button" style="border-radius: 0.5vh; margin-left: 10px;" onclick="localStorage.clear(); document.location.reload();">Поменять имя</button>
+        </div>
+    </div>
+
+    <script>
+        const title = document.getElementById('title');
+        
+        if (localStorage.getItem('author') == undefined || localStorage.getItem('author') == null || localStorage.getItem('author') == '') {
+            localStorage.setItem('author', prompt('Введите своё имя!', 'Аноним'));
+
+            title.innerHTML += ` | ${localStorage.getItem('author')}`;
+        }
+        else {
+            title.innerHTML += ` | ${localStorage.getItem('author')}`;
+        }
+
+        const message_field = document.getElementById('message');
+        message_field.addEventListener('keypress', function (e) {
+            var key = e.which || e.keyCode;
+            if (key === 13) { // код клавиши Enter
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+
+</html>
