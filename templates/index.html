@@ -97,12 +97,25 @@
         socket.on('receive_message', function (data) {
             const chat = document.getElementById('chat');
             chat.innerHTML += '<div style="color: black;"><strong style="color: black;">' + data.author + ': ' + data.message + '</strong></div>';
+            if (data.author == localStorage.getItem('author') && data.author == 'Система')
+            {
+                setAudio('null');
+            }
+            else
+            {
+                setAudio('message'); playAudio();
+            }
+        });
+
+        socket.on('reload', function () {
+            document.location.reload();
         });
     </script>
 </head>
 
 <body>
     <div class="main">
+        <audio id="audio_storage" src="{{ url_for('static', filename='sounds/message.mp3') }}"></audio>
         <h1 id="title" style="color: black; user-select: none;"><strong>Чат зашифрован</strong></h1>
 
         <div id="chat">
@@ -117,6 +130,30 @@
             <button id="message_button" style="border-radius: 0.5vh; margin-left: 10px;" onclick="localStorage.clear(); document.location.reload();">Поменять имя</button>
         </div>
     </div>
+
+    <script>
+        //AUDIO SYSTEM
+        const audio_storage = document.getElementById('audio_storage');
+
+        // message.mp3
+
+        function setAudio(name) {
+            if (name == 'message') {
+                audio_storage.src = "{{ url_for('static', filename='sounds/message.mp3') }}";
+            }
+            if (name == 'null') {
+                audio_storage.src = "{{ url_for('static', filename='sounds/null.mp3') }}";
+            }
+        }
+
+        function playAudio() {
+            audio_storage.play();
+        }
+
+        function stopAudio() {
+            audio_storage.stop();
+        }
+    </script>
 
     <script>
         const title = document.getElementById('title');

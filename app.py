@@ -3,7 +3,7 @@ from flask_socketio import SocketIO, emit
 from PasswordGenerator import Generate
 import asyncio, time
 
-delay = 5 # Задержка перед остоновкой
+delay = 2 # Задержка перед остоновкой
 show_safe_code = False
 enable_log_messages = False # Включить логирование сообщений
 # http://95.31.8.49:5001/ - http://127.0.0.1:5001/
@@ -55,6 +55,11 @@ def handle_message(data):
         # emit('receive_message', {'author': 'Система', 'message': f'Чат быдет остановлен через {delay} секунд.'}, broadcast=True)
         print(f'Stopping chat after {delay} secs!')
         exit_save()
+    elif str(data['message']).lower() == 'очистить':
+        print(f'Stopping chat after {delay} secs!')
+        messages.clear()
+        emit('receive_message', {'author': 'Система', 'message': f'Чат очищен.'}, broadcast=True)
+        emit('reload', broadcast=True)
     else:
         emit('receive_message', data, broadcast=True)
 
