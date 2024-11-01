@@ -142,13 +142,14 @@
 
         socket.on('receive_message', function (data) {
             const chat = document.getElementById('chat');
-            if (data.author == localStorage.getItem('author')) {
-                chat.innerHTML += '<div class="decoration_message"><strong>' + data.author + ' |' + data.message + '</strong></div>';
-            }
-            else {
-                chat.innerHTML += '<div class="decoration_other_message"><strong>' + data.author + ' |' + data.message + '</strong></div>';
-            }
+            // if (data.author == localStorage.getItem('author')) {
+            //     chat.innerHTML += '<div class="decoration_message"><strong>' + data.author + ' |' + data.message + '</strong></div>';
+            // }
+            // else {
+            //     chat.innerHTML += '<div class="decoration_other_message"><strong>' + data.author + ' |' + data.message + '</strong></div>';
+            // }
 
+            chat.innerHTML += '<div class="decoration_message"><strong>' + data.author + ' |' + data.message + '</strong></div>';
 
             if (data.author == localStorage.getItem('author') || data.author == 'Система')
             {
