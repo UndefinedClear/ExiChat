@@ -1,7 +1,7 @@
 <h1 align="center">:lock: ExiChat :lock:</h1>
 
 <h2 align="center">🚀 Features</h2>
-<ul align="center">
+<ul align="center" style="list-style-type: none; padding: 0;">
     <li>Customizing</li>
     <li>All messages are encrypted.</li>
     <li>Direct messaging via IP.</li>
@@ -19,3 +19,12 @@
       </td>
    </tr>
 </table>
+
+<hr>
+
+<h2 align="center">🚀 Features</h2>
+<ul align="center" style="list-style-type: none; padding: 0;">
+    <li>Customizing</li>
+    <li>All messages are encrypted.</li>
+    <li>Direct messaging via IP.</li>
+</ul>
