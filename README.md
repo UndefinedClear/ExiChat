@@ -1,4 +1,4 @@
-<h1 align="center"> :herb: ExiChat :herb: </h1>
+<h1 align="center"> :lock: ExiChat :lock: </h1>
 
 ## 🚀 Features
 * Customizing 
