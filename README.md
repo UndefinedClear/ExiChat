@@ -1,9 +1,11 @@
 <h1 align="center"> :lock: ExiChat :lock: </h1>
 
+<p align="center">
 ## 🚀 Features
 * Customizing 
 * All messages are encrypted.
 * Direct messaging via IP.
+</p>
 
 <table align="center">
    <tr>
