@@ -1,9 +1,14 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from PasswordGenerator import Generate
-import asyncio, time
+import asyncio, time, os, datetime
 
-delay = 2 # Задержка перед остоновкой
+# if os.path.exists('__pycache__'):
+#     os.remove('__pycache__')
+
+dt = datetime.datetime
+
+delay = 0 # Задержка перед остоновкой
 show_safe_code = False
 enable_log_messages = False # Включить логирование сообщений
 # http://95.31.8.49:5001/ - http://127.0.0.1:5001/
@@ -44,9 +49,6 @@ def index():
 
 @socketio.on('send_message')
 def handle_message(data):
-    # Сохраняем сообщение и автора
-    messages.append(data)
-
     if enable_log_messages:
         print(data)
 
@@ -60,8 +62,16 @@ def handle_message(data):
         messages.clear()
         emit('receive_message', {'author': 'Система', 'message': f'Чат очищен.'}, broadcast=True)
         emit('reload', broadcast=True)
+    elif str(data['message']).lower() == 'релоад':
+        emit('reload', broadcast=True)
     else:
+        msg = f'{dt.now().hour}:{dt.now().minute}| {data["message"]}'
+
+        data = {'author': data['author'], 'message': msg}
         emit('receive_message', data, broadcast=True)
+    
+    # Сохраняем сообщение и автора
+    messages.append(data)
 
 def exit_save():
     time.sleep(delay)
