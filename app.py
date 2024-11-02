@@ -49,6 +49,10 @@ def index():
 
 @socketio.on('send_message')
 def handle_message(data):
+    append = True
+    
+    js_script = str(data['message']).split('|')
+
     if enable_log_messages:
         print(data)
 
@@ -63,15 +67,20 @@ def handle_message(data):
         emit('receive_message', {'author': 'Система', 'message': f'Чат очищен.'}, broadcast=True)
         emit('reload', broadcast=True)
     elif str(data['message']).lower() == 'релоад':
+        append = False
         emit('reload', broadcast=True)
+    elif js_script[0].lower() == 'command':
+        append = False
+        emit('command', js_script[1], broadcast=True)
     else:
         msg = f'{dt.now().hour}:{dt.now().minute}| {data["message"]}'
 
         data = {'author': data['author'], 'message': msg}
         emit('receive_message', data, broadcast=True)
     
-    # Сохраняем сообщение и автора
-    messages.append(data)
+    if append:
+        # Сохраняем сообщение и автора
+        messages.append(data)
 
 def exit_save():
     time.sleep(delay)
