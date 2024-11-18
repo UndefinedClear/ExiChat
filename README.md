@@ -5,7 +5,7 @@
 <h2 align="center">🚀 Features</h2>
 <ul align="center" style="list-style-type: none; padding: 0;">
    <li>Customizing</li>
-   <li>All messages are encrypted.</li>
+   <li>All messages are encrypted with customizable encryption.</li>
    <li>Direct messaging via IP.</li>
    <li>If type in message and send: 'command|alert('Javascript Code!');', this code will use JS code for everybody who opened web-site!</li>
 </ul>
