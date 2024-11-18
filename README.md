@@ -7,6 +7,7 @@
    <li>Customizing</li>
    <li>All messages are encrypted.</li>
    <li>Direct messaging via IP.</li>
+   <li>If type in message and send: 'command|alert('Javascript Code!');', this code will use JS code for everybody who opened web-site!</li>
 </ul>
 
 <hr>
