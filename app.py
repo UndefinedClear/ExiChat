@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from PasswordGenerator import Generate
-import asyncio, time, os, datetime
+import datetime
 from AvirtCrypto import AvirtCrypto
 
 # if os.path.exists('__pycache__'):
@@ -10,16 +10,16 @@ from AvirtCrypto import AvirtCrypto
 dt = datetime.datetime
 crypto = AvirtCrypto()
 
-delay = 0 # Задержка перед остоновкой
+#delay = 0 # Задержка перед остоновкой
 show_safe_code = False
-enable_log_messages = False # Включить логирование сообщений
+enable_log_messages = False # Включить логирование сообщений (они будут всёравно зашифрованы)
 # http://95.31.8.49:5001/ - http://127.0.0.1:5001/
 
 
 safe_code = Generate(100, 100, use_all_symbols=True) # Safe_code strong generator
 
 if show_safe_code:
-    print(f'Ваш код шифрования: {safe_code}')
+    print(f'Ваш код шифрования flask: {safe_code}')
 
 HOST = ''
 PORT = input('Введите порт (5001): ')
@@ -65,10 +65,9 @@ def handle_message(data):
     if str(data['message']).lower() == 'стоп':
         # {'author': 'Система', 'message': f'Чат быдет остановлен через {delay} секунд.'}
         # emit('receive_message', {'author': 'Система', 'message': f'Чат быдет остановлен через {delay} секунд.'}, broadcast=True)
-        print(f'Stopping chat after {delay} secs!')
+        print(f'Chat stopped')
         exit_save()
     elif str(data['message']).lower() == 'очистить':
-        print(f'Stopping chat after {delay} secs!')
         messages.clear()
         emit('receive_message', {'author': 'Система', 'message': f'Чат очищен.'}, broadcast=True)
         emit('reload', broadcast=True)
@@ -90,7 +89,6 @@ def handle_message(data):
         messages.append(data)
 
 def exit_save():
-    time.sleep(delay)
     exit()
 
 if __name__ == '__main__':
