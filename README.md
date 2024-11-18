@@ -1,4 +1,4 @@
-<h1 align="center">:lock: ExiChat :lock:</h1>
+<h1 align="center">:lock: ExiChat 1.1.0.2 :lock:</h1>
 
 <hr>
 
