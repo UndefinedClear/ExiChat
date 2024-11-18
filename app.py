@@ -2,11 +2,13 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from PasswordGenerator import Generate
 import asyncio, time, os, datetime
+from AvirtCrypto import AvirtCrypto
 
 # if os.path.exists('__pycache__'):
 #     os.remove('__pycache__')
 
 dt = datetime.datetime
+crypto = AvirtCrypto()
 
 delay = 0 # Задержка перед остоновкой
 show_safe_code = False
@@ -50,7 +52,11 @@ def index():
 @socketio.on('send_message')
 def handle_message(data):
     append = True
+
+    data['message'] = str(data['message'])
     
+    data['message'] = crypto.decode(data['message'])
+
     js_script = str(data['message']).split('|')
 
     if enable_log_messages:
@@ -73,13 +79,14 @@ def handle_message(data):
         append = False
         emit('command', js_script[1], broadcast=True)
     else:
-        msg = f'{dt.now().hour}:{dt.now().minute}| {data["message"]}'
+        #msg = f'{dt.now().hour}:{dt.now().minute}| {data["message"]}'
 
-        data = {'author': data['author'], 'message': msg}
+        #data = {'author': data['author'], 'message': crypto.decode(data['message'])}
         emit('receive_message', data, broadcast=True)
     
     if append:
         # Сохраняем сообщение и автора
+        data['message'] = crypto.encode(data['message'])
         messages.append(data)
 
 def exit_save():
