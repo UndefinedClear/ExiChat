@@ -47,7 +47,13 @@ messages = []
 
 @app.route('/')
 def index():
-    return render_template('index.html', messages=messages)
+    return '''
+<center style="margin-top: 50vh;"><a href="/chat" style="border: none; color: white; font-size: 50px; padding: 25px; text-decoration: none; background-color: rgb(0, 140, 255); transition: .3s; border-radius: 1.7vh; user-select: none;">Открыть чат</a></center>
+'''
+
+@app.route('/chat')
+def chat():
+    return render_template('chat.html', messages=messages)
 
 @socketio.on('send_message')
 def handle_message(data):
