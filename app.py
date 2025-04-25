@@ -87,7 +87,7 @@ def handle_message(data):
         #msg = f'{dt.now().hour}:{dt.now().minute}| {data["message"]}'
 
         #data = {'author': data['author'], 'message': crypto.decode(data['message'])}
-        emit('receive_message', crypto.decode(data), broadcast=True)
+        emit('receive_message', data, broadcast=True)
     
     if append:
         # Сохраняем сообщение и автора
